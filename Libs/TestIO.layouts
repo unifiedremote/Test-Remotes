@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<row>
+		<label id="info" />
+	</row>
+	<row>
+		<button text="pread" ontap="pread" />
+	</row>
+	<row>
+		<button text="plines" ontap="plines" />
+	</row>
+	<row>
+		<button text="fread" ontap="fread" />
+	</row>
+	<row>
+		<button text="flines" ontap="flines" />
+	</row>
+	<row>
+		<button text="fwrite" ontap"fwrite" />
+	</row>
+</layout>
