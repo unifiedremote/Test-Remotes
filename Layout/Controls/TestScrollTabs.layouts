@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<tabs scroll="both">
+		<tab>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+		</tab>
+		<tab>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+		</tab>
+	</tabs>
+</layout>

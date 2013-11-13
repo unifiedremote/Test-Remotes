@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<tabs>
+		<tab>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+		</tab>
+		<tab scroll="both">
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+			<row>
+				<button text="abc" />
+			</row>
+		</tab>
+	</tabs>
+</layout>

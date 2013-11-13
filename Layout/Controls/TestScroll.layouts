@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout scroll="both">
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 	<row>
-		<button />
+		<button text="abc" />
 	</row>
 </layout>
