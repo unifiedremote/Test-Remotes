@@ -28,10 +28,10 @@ actions.off = function()
 end
 
 actions.on = function() 
-        for i = 0, 16 do
-                w(ind(i), true);
+	for i = 0, 16 do
+		g.set(ind(i), true);
 		layout["l"..i+1].checked = true;
-        end
+	end
 end
 
 actions.l1 = function(checked)
