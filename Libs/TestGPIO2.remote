@@ -20,8 +20,8 @@ events.create = function ()
 end
 
 function update ()
-	local i = math.random(-1,17);
-	local s = math.random(0,3);
+	local i = math.floor(0,16);
+	local s = math.floor(0,1);
 	if (s == "1") then
 		g.high(g.index(i));
 	else
@@ -31,4 +31,5 @@ end
 
 events.destroy = function ()
 	libs.timer.cancel(tid);
+	g.releaseall();
 end
