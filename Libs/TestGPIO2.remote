@@ -3,7 +3,6 @@
 meta.id = "Test.GPIO2"
 meta.name = "Test GPIO2 Library"
 meta.author = "Test"
-meta.start = "auto"
 
 local g = libs.gpio;
 local tid = -1;
@@ -16,16 +15,17 @@ events.create = function ()
 		g.low(g.index(i));
 	end
 	
-	tid = libs.timer.interval(update, 1000);
+	tid = libs.timer.interval(update, 100);
 end
 
 function update ()
-	local i = math.floor(0,16);
-	local s = math.floor(0,1);
-	if (s == "1") then
-		g.high(g.index(i));
-	else
-		g.low(g.index(i));
+	for i=0,16 do
+		local s = math.random(0,1);
+		if (s == 1) then
+			g.high(g.index(i));
+		else
+			g.low(g.index(i));
+		end
 	end
 end
 
