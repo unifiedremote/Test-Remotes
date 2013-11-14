@@ -16,6 +16,6 @@
 		<button text="flines" ontap="flines" />
 	</row>
 	<row>
-		<button text="fwrite" ontap"fwrite" />
+		<button text="fwrite" ontap="fwrite" />
 	</row>
 </layout>
