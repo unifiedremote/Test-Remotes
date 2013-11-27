@@ -9,4 +9,7 @@
 	<row>
 		<button text="list" ontap="list" />
 	</row>
+	<row>
+		<button text="input" ontap="input" />
+	</row>
 </layout>

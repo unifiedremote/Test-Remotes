@@ -1,6 +1,3 @@
-
--- Metadata
-
 actions.message = function ()
 	libs.server.update({ type = "message", text = "message", title = "title" });
 end
@@ -29,4 +26,17 @@ actions.list = function ()
 			{ type = "item", text = "item 5" }
 		}
 	})
+end
+
+actions.input = function ()
+	libs.server.update({
+		type = "input",
+		title = "title",
+		text = "default text",
+		ontap = "got_input"
+	});
+end
+
+actions.got_input = function (text)
+	print("input: " .. text);
 end
