@@ -7,7 +7,7 @@
 		<list ontap="tap" onhold="hold">
 			<item>hello world! 1</item>
 			<item icon="select">hello world! 2</item>
-			<item image="test.png">hello world! 3</item>
+			<item image="../test.png">hello world! 3</item>
 			<item>hello\nworld! 4</item>
 			<item>hello world! 5</item>
 			<item checked="true">hello world! 6</item>

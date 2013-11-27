@@ -2,7 +2,7 @@
 <layout>
 	<row>
 		<touch text="hello world!" />
-		<touch image="test.png" />
+		<touch image="../test.png" />
 	</row>
 	<row>
 		<touch text="up" onup="up" />

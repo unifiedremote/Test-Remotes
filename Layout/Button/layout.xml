@@ -7,7 +7,7 @@
 	</row>
 	<row>
 		<button icon="select" />
-		<button image="test.png" />
+		<button image="../test.png" />
 		<button text="hello world!" />
 	</row>
 	<row>

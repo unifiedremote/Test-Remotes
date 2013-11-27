@@ -7,7 +7,7 @@
 	</row>
 	<row>
 		<toggle icon="select" />
-		<toggle image="test.png" />
+		<toggle image="../test.png" />
 		<toggle text="hello world!" />
 	</row>
 	<row>
