@@ -4,7 +4,8 @@
 		<button text="message" ontap="message" />
 	</row>
 	<row>
-		<button text="dialog" ontap="dialog" />
+		<button text="dialog 1" ontap="dialog1" />
+		<button text="dialog 2" ontap="dialog2" />
 	</row>
 	<row>
 		<button text="list" ontap="list" />

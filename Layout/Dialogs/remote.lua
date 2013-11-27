@@ -2,16 +2,35 @@ actions.message = function ()
 	libs.server.update({ type = "message", text = "message", title = "title" });
 end
 
-actions.dialog = function ()
+actions.dialog1 = function ()
 	libs.server.update({
 		type = "dialog",
 		text = "message",
 		title = "title",
 		children = {
-			{ type = "button", text = "OK" },
-			{ type = "button", text = "Cancel" }
+			{ type = "button", text = "OK", ontap = "got_1" }
 		}
 	})
+end
+
+actions.dialog2 = function ()
+	libs.server.update({
+		type = "dialog",
+		text = "message",
+		title = "title",
+		children = {
+			{ type = "button", text = "Yes", ontap = "got_1" },
+			{ type = "button", text = "No", ontap = "got_2" }
+		}
+	})
+end
+
+actions.got_1 = function ()
+	print("1!");
+end
+
+actions.got_2 = function ()
+	print("2!");
 end
 
 actions.list = function ()
