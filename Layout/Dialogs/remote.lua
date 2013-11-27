@@ -24,8 +24,13 @@ actions.list = function ()
 			{ type = "item", text = "item 3" },
 			{ type = "item", text = "item 4" },
 			{ type = "item", text = "item 5" }
-		}
+		},
+		ontap = "got_item"
 	})
+end
+
+actions.got_item = function (index)
+	print("item: " .. index);
 end
 
 actions.input = function ()
