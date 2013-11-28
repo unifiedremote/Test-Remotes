@@ -1,10 +1,3 @@
-
--- Metadata
-
-print = function (s)
-	libs.log.trace("my print: " .. s)
-end
-
 events.preload = function ()
 	print("preload")
 end
