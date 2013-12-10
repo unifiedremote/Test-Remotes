@@ -30,3 +30,11 @@ end
 actions.toast = function ()
 	device.toast("abc");
 end
+
+actions.irsend = function ()
+	--The following is not implemented yet...
+	--device.irsend("...");
+	
+	--Use the explicit syntax for now...
+	libs.server.run("@irsend", "@irsend", "code goes here...");
+end

@@ -21,4 +21,7 @@
 	<row>
 		<button text="toast" ontap="toast" />
 	</row>
+	<row>
+		<button text="irsend" ontap="irsend" />
+	</row>
 </layout>
