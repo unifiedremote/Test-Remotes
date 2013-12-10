@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 	<row>
-		<button text="wol" ontap="wol" />
+		<button text="wol (run on device only)" ontap="@wol" />
 	</row>
 	<row>
 		<button text="keyboard" ontap="keyboard" />
@@ -23,5 +23,8 @@
 	</row>
 	<row>
 		<button text="irsend" ontap="irsend" />
+	</row>
+	<row>
+		<button text="irsend (run on device only)" ontap="@irsend,foo" />
 	</row>
 </layout>
