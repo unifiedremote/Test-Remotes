@@ -4,7 +4,7 @@
 		<slider text="hello world!" />
 	</row>
 	<row>
-		<slider />
+		<slider id="slider" progress="0" progressmax="10" />
 	</row>
 	<row>
 		<slider text="fifty percent" progress="50" progressmax="100" />
