@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<row>
+		<label id="message" text="Hello World" />
+	</row>
+	<row>
+		<button text="button" ontap="foo" />
+	</row>
+	<row>
+		<button text="button" ontap="bar" />
+	</row>
+</layout>
