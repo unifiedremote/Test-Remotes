@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<tabs onchange="change">
+		<tab text="a">
+			<label text="a tab page" />
+		</tab>
+		<tab text="b">
+			<tabs>
+				<tab text="b1">
+					<label text="b1 tab page" />
+				</tab>
+				<tab text="b2">
+					<label text="b2 tab page" />
+				</tab>
+			</tabs>
+		</tab>
+	</tabs>
+</layout>
