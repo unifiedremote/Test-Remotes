@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout onLaunch="switch" onVolumeDown="volumedown" onVolumeUp="volumeup" color="blue">
+  <grid>
+   <row weight="2">
+      <button ontap="home" icon="HOME" color="grey"/>
+      <button ontap="up" icon="UP" color="blue"/>
+      <button ontap="menu" text="Menu" color="grey"/>
+    </row>
+    <row weight="2">
+      <button ontap="left" icon="LEFT" color="blue"/>
+      <button ontap="ok" icon="SELECT" color="blue"/>
+      <button ontap="right" icon="RIGHT" color="blue"/>
+    </row>
+    <row weight="2">
+      <button ontap="back" icon="BACK" color="grey"/>
+      <button ontap="down" icon="DOWN" color="blue"/>
+      <button ontap="info" text="Info" color="grey"/>
+    </row>
+    <row weight="1">
+	    <control Type="Label" text=""/>
+    </row>
+    <row weight="1">
+	    <button ontap="prev" icon="previous"/>
+	    <button ontap="stop" icon="stop"/>
+	    <button ontap="next" icon="next"/>
+    </row>
+    <row weight="2">
+      <button ontap="rwd" icon="RWD" color="blue"/>
+      <button ontap="pause" icon="PAUSE" color="blue"/>
+      <button ontap="fwd" icon="FF" color="blue"/>
+    </row>
+	</grid>
+</layout>
