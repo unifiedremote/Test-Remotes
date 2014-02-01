@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<row>
+		<button text="trace" ontap="trace" />
+	</row>
+	<row>
+		<button text="info" ontap="info" />
+	</row>
+	<row>
+		<button text="warn" ontap="warn" />
+	</row>
+	<row>
+		<button text="error" ontap="error" />
+	</row>
+	<row>
+		<button text="print" ontap="print" />
+	</row>
+</layout>
