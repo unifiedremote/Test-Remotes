@@ -1,18 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-	<tabs onchange="change">
-		<tab text="a">
-			<label text="a tab page" />
-		</tab>
-		<tab text="b">
+	<tabs>
+		<tab text="foo 1"> 
 			<tabs>
-				<tab text="b1">
-					<label text="b1 tab page" />
+				<tab text="foo a">
+					<row>
+						<label text="foo a" />
+					</row>
 				</tab>
-				<tab text="b2">
-					<label text="b2 tab page" />
+				<tab text="foo b">    
+					<row>
+						<label text="foo b" />
+					</row>
 				</tab>
 			</tabs>
+		</tab>
+		<tab text="foo 2">
+			<tabs>
+				<tab text="foo c">
+					<row>
+						<label text="foo c" />
+					</row>
+				</tab>
+				<tab text="foo d">    
+					<row>
+						<label text="foo d" />
+					</row>
+				</tab>
+			</tabs>
+		</tab>
+		<tab text="foo 3">
+			<tabs> 
+				<tab text="foo e">
+					<row>
+						<label text="foo e" />
+					</row>
+				</tab>
+				<tab text="foo f">    
+					<row>
+						<label text="foo f" />
+					</row>
+				</tab>
+			</tabs>
+		</tab>
+		<tab text="foo 4">
+			<grid>
+				<tabs> 
+					<tab text="foo g">
+						<grid>
+							<row>
+								<label text="foo g" />
+							</row>
+						</grid>
+					</tab>
+					<tab text="foo h">    
+						<row>
+							<label text="foo i" />
+						</row>
+						<row>
+							<label text="foo j" />
+						</row>
+						<row>
+							<label text="foo k" />
+						</row>
+					</tab>
+				</tabs>
+			</grid>
 		</tab>
 	</tabs>
 </layout>
