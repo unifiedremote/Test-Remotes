@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<row>
+		<label id="info" text="" />
+	</row>
+	<row>
+		<button text="get" ontap="get" />
+		<button text="set" ontap="set" />
+	</row>
+</layout>
