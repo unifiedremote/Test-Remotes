@@ -4,7 +4,7 @@
 		<label text="tap and hold" />
 	</row>
 	<row>
-		<list ontap="tap" onhold="hold">
+		<list id="list" ontap="tap" onhold="hold">
 			<item>hello world! 1</item>
 			<item icon="select">hello world! 2</item>
 			<item image="../test.png">hello world! 3</item>
@@ -21,5 +21,9 @@
 			<item>hello world! e</item>
 			<item>hello world! f</item>
 		</list>
+	</row>
+	<row weight="wrap">
+		<button text="empty" ontap="empty" />
+		<button text="test" ontap="test" />
 	</row>
 </layout>
