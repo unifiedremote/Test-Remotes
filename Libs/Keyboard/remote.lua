@@ -25,6 +25,12 @@ actions.stroke1 = function ()
 	stroke("a");
 end
 
+actions.stroke2 = function ()
+	stroke("cmd", "a");
+end
+
+
+
 actions.stroke3 = function ()
 	stroke("shift", "alt", "8");
 end
