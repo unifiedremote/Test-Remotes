@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<row>
+		<button text="gone" visibility="gone" id="goner" />
+		<button text="test" />
+	</row>
+	<row>
+		<button text="Set visible" onclick="set_vis"/>
+		<button text="Set gone" onclick="set_gone"/>
+		<button text="Set invisible" onclick="set_invis" />
+	</row>
+</layout>
