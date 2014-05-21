@@ -72,6 +72,7 @@
 			<row>
 				<button text="split1" ontap="split1" />
 				<button text="split2" ontap="split2" />
+				<button text="split3" ontap="split3" />
 			</row>
 			<row>
 				<button text="join1" ontap="join1" />

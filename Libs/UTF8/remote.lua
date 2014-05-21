@@ -209,6 +209,11 @@ actions.split2 = function ()
 	assert(s == r);
 end
 
+actions.split3 = function ()
+	utf8.split("", "a");
+	utf8.split("a", "");
+end
+
 actions.join1 = function ()
 	local r = utf8.join(",", "a", "b", "c");
 	assert(r == "a,b,c");

@@ -2,67 +2,67 @@
 -- Metadata
 
 local server = libs.server;
-local task = libs.task;
+local win = libs.win;
 local process = "uTorrent.exe";
 
 actions.start_app_without_exe = function ()
-	task.start("chrome");
+	os.start("chrome");
 end
 
 actions.start_app_with_exe = function ()
-	task.start("chrome.exe");
+	os.start("chrome.exe");
 end
 
 actions.start_without_exe = function ()
-	task.start("calc");
+	os.start("calc");
 end
 
 actions.start_with_exe = function ()
-	task.start("calc.exe");
+	os.start("calc.exe");
 end
 
 actions.start_relative = function ()
-	task.start("");
+	os.start("");
 end
 
 actions.start_absolute = function ()
-	task.start("C:/Windows/notepad.exe");
+	os.start("C:/Windows/notepad.exe");
 end
 
 actions.start_vars = function ()
-	task.start("%windir%/notepad.exe");
+	os.start("%windir%/notepad.exe");
 end
 
 actions.start_bad = function ()
-	task.start("laskjdlaksjdflkasjf");
+	os.start("laskjdlaksjdflkasjf");
 end
 
 actions.start_args = function ()
-	task.start("cmd", "/k", "ipconfig");
+	os.start("cmd", "/k", "ipconfig");
 end
 
 actions.start_args_table = function ()
-	task.start("cmd", { "/k", "ipconfig" });
+	os.start("cmd", { "/k", "ipconfig" });
 end
 
 actions.open_http = function ()
-	task.open("http://www.google.com");
+	os.open("http://www.google.com");
 end
 
 actions.open_www = function ()
-	task.open("www.youtube.com");
+	os.open("www.youtube.com");
 end
 
 actions.open_file = function ()
-	task.open("C:/Test.txt");
+	os.open("C:/Test.txt");
 end
 
 actions.open_dir = function ()
-	task.open("C:/Windows");
+	os.open("C:/Windows");
 end
 
 actions.open_cp = function ()
-	task.open("control mouse");
+	os.open("control mouse");
 end
 
 -------------------------------------------------------------------------------------
@@ -70,47 +70,47 @@ end
 -------------------------------------------------------------------------------------
 
 actions.desktop = function ()
-	server.update({ id = "info", text = task.desktop() });
+	server.update({ id = "info", text = win.desktop() });
 end
 
 actions.desktop_title = function ()
-	server.update({ id = "info", text = task.title(task.desktop()) });
+	server.update({ id = "info", text = win.title(win.desktop()) });
 end
 
 actions.active = function ()
-	server.update({ id = "info", text = task.active() });
+	server.update({ id = "info", text = win.active() });
 end
 
 actions.find_class = function ()
-	server.update({ id = "info", text = task.find("Chrome_WidgetWin_1", nil) });
+	server.update({ id = "info", text = win.find("Chrome_WidgetWin_1", nil) });
 end
 
 actions.find_title = function ()
-	server.update({ id = "info", text = task.find(nil, "Calculator") });
+	server.update({ id = "info", text = win.find(nil, "Calculator") });
 end
 
 actions.find_both = function ()
-	server.update({ id = "info", text = task.find("CalcFrame", "Calculator") });
+	server.update({ id = "info", text = win.find("CalcFrame", "Calculator") });
 end
 
 actions.find_none = function ()
-	server.update({ id = "info", text = task.find(nil, nil) });
+	server.update({ id = "info", text = win.find(nil, nil) });
 end
 
 actions.post = function ()
-	server.update({ id = "info", text = task.post(task.window("spotify.exe"), 0x0319, 0, 917504) });
+	server.update({ id = "info", text = win.post(win.window("spotify.exe"), 0x0319, 0, 917504) });
 end
 
 actions.post_bad = function ()
-	server.update({ id = "info", text = task.post(0, 0, 0, 0) });
+	server.update({ id = "info", text = win.post(0, 0, 0, 0) });
 end
 
 actions.send = function ()
-	server.update({ id = "info", text = task.send(task.window("spotify.exe"), 0x0319, 0, 917504) });
+	server.update({ id = "info", text = win.send(win.window("spotify.exe"), 0x0319, 0, 917504) });
 end
 
 actions.send_bad = function ()
-	server.update({ id = "info", text = task.send(0, 0, 0, 0) });
+	server.update({ id = "info", text = win.send(0, 0, 0, 0) });
 end
 
 -------------------------------------------------------------------------------------
@@ -118,97 +118,97 @@ end
 -------------------------------------------------------------------------------------
 
 actions.active = function ()
-	server.update({ id = "info", text = task.active() });
+	server.update({ id = "info", text = win.active() });
 end
 
 actions.active_title = function ()
-	server.update({ id = "info", text = task.title(task.active()) });
+	server.update({ id = "info", text = win.title(win.active()) });
 end
 
 actions.active_title = function ()
-	server.update({ id = "info", text = task.title(task.active()) });
+	server.update({ id = "info", text = win.title(win.active()) });
 end
 
 actions.process = function ()
-	server.update({ id = "info", text = task.process(process) });
+	server.update({ id = "info", text = win.process(process) });
 end
 
 actions.process_bad = function ()
-	server.update({ id = "info", text = task.process("asdf") });
+	server.update({ id = "info", text = win.process("asdf") });
 end
 
 actions.window = function ()
-	server.update({ id = "info", text = task.window(process) });
+	server.update({ id = "info", text = win.window(process) });
 end
 
 actions.window_bad = function ()
-	server.update({ id = "info", text = task.window("asdf") });
+	server.update({ id = "info", text = win.window("asdf") });
 end
 
 actions.title = function ()
-	server.update({ id = "info", text = task.title(process) });
+	server.update({ id = "info", text = win.title(process) });
 end
 
 actions.title_bad = function ()
-	server.update({ id = "info", text = task.title("asdf") });
+	server.update({ id = "info", text = win.title("asdf") });
 end
 
 actions.switchto = function ()
-	server.update({ id = "info", text = task.switchto(process) });
+	server.update({ id = "info", text = win.switchto(process) });
 end
 
 actions.switchto_bad = function ()
-	server.update({ id = "info", text = task.switchto("asdf") });
+	server.update({ id = "info", text = win.switchto("asdf") });
 end
 
 actions.switchtowait = function ()
-	server.update({ id = "info", text = task.switchtowait(process) });
+	server.update({ id = "info", text = win.switchtowait(process) });
 end
 
 actions.switchtowait_bad = function ()
-	server.update({ id = "info", text = task.switchtowait("asdf") });
+	server.update({ id = "info", text = win.switchtowait("asdf") });
 end
 
 actions.switchtowait3sec = function ()
-	local text = task.switchtowait(process, 3000);
+	local text = win.switchtowait(process, 3000);
 	print("done!");
 	server.update({ id = "info", text = text });
 end
 
 actions.switchtowait3sec_bad = function ()
-	local text = task.switchtowait("asdf", 3000);
+	local text = win.switchtowait("asdf", 3000);
 	print("done!");
 	server.update({ id = "info", text = text });
 end
 
 actions.kill = function ()
-	task.kill(process);
+	win.kill(process);
 end
 
 actions.kill_bad = function ()
-	task.kill("asdf");
+	win.kill("asdf");
 end
 
 actions.close = function ()
-	task.close(process);
+	win.close(process);
 end
 
 actions.close_bad = function ()
-	task.close("asdf");
+	win.close("asdf");
 end
 
 actions.quit = function ()
-	task.quit(process);
+	win.quit(process);
 end
 
 actions.quit_bad = function ()
-	task.quit("asdf");
+	win.quit("asdf");
 end
 
 actions.list = function ()
-	local tasks = task.list();
+	local tasks = win.list();
 	for i,task in ipairs(tasks) do
-		print(task.title);
+		print(win.title);
 	end
-	print(task.list());
+	print(win.list());
 end

@@ -1,48 +1,33 @@
+local script = libs.script;
 
--- Metadata
-
--- Actions
-
-actions.foo = function ()
-
-end
-
-actions.bar = function ()
-
-end
-
-actions.test = function ()
-	--libs.task.script(
-	--	"tell application \"Spotify\"",
-	--		"play",
-	--	"end tell"
-	--);
-	local out = libs.task.script(
-		"tell application \"Spotify\"",
-			"set r to sound volume",
-		"end tell"
+actions.batch = function ()
+	layout.info.text = script.batch(
+		"echo %cd%"
 	);
-	libs.server.update({ id = "info", text = out });
 end
 
--- Events
-
-events.preload = function ()
-
+actions.powershell = function ()
+	layout.info.text = script.powershell(
+		"$pwd",
+		"ps | Where-Object { $_.Name -eq \"svchost\" }"
+	);
 end
 
-events.create = function ()
-
+actions.apple = function ()
+	layout.info.text = script.apple(
+		"set r to (path to me)"
+	);
 end
 
-events.focus = function ()
-
+actions.shell = function ()
+	layout.info.text = script.shell(
+		"echo $PWD"
+	);
 end
 
-events.blur = function ()
-
-end
-
-events.destroy = function ()
-
+actions.shell_special = function ()
+	layout.info.text = script.shell(
+		"#!/bin/sh",
+		"echo $PWD"
+	);
 end

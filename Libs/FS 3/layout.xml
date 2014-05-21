@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<row>
+		<label id="info" />
+	</row>
+	<row>
+		<button text="read" ontap="read" />
+		<button text="readlines" ontap="readlines" />
+	</row>
+	<row>
+		<button text="write" ontap="write" />
+		<button text="writelines" ontap="writelines" />
+	</row>
+	<row>
+		<button text="append" ontap="append" />
+		<button text="appendlines" ontap="appendlines" />
+	</row>
+</layout>

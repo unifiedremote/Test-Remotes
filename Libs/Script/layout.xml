@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 	<row>
-		<label id="info" text="label" />
+		<label text="" id="info" />
+	</row>
+	
+	<row weight="wrap">
+		<label text="Windows" />
 	</row>
 	<row>
-		<button id="button" text="button" ontap="test" />
+		<button text="batch" ontap="batch" />
+		<button text="powershell" ontap="powershell" />
 	</row>
+	
+	<row weight="wrap">
+		<label text="Mac OS X" />
+	</row>
+	<row>
+		<button text="shell" ontap="shell" />
+		<button text="apple" ontap="apple" />
+	</row>
+	
+	<row weight="wrap">
+		<label text="Linux" />
+	</row>
+	<row>
+		<button text="shell" ontap="shell" />
+		<button text="shell special" ontap="shell_special" />
+	</row>
+	
 </layout>

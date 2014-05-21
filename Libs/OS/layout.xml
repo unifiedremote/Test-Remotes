@@ -6,4 +6,18 @@
 	<row>
 		<button text="sleep" ontap="sleep" />
 	</row>
+	<row>
+		<button text="open" ontap="open" />
+		<button text="open all" ontap="open_all" />
+	</row>
+	<row>
+		<button text="start" ontap="start" />
+		<button text="start args" ontap="start args" />
+	</row>
+	<row>
+		<button text="script" ontap="script" />
+	</row>
+	<row>
+		<button text="throw" ontap="throw" />
+	</row>
 </layout>

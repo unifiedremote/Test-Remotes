@@ -6,4 +6,7 @@
 	<row>
 		<button id="button" text="button" ontap="test" />
 	</row>
+	<row>
+		<button text="foo" visibility="invisible" />
+	</row>
 </layout>
