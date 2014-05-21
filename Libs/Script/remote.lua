@@ -2,12 +2,12 @@ local script = libs.script;
 
 actions.default = function ()
 	out,err,res = script.default("foo");
-	layout.info.text = err;
+	layout.info.text = out .. err;
 end
 
 actions.script = function ()
 	out,err,res = libs.os.script("set out to \"foooooo\"");
-	layout.info.text = err;
+	layout.info.text = out .. err;
 end
 
 actions.batch = function ()
