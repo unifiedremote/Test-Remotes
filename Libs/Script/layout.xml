@@ -4,6 +4,11 @@
 		<label text="" id="info" />
 	</row>
 	
+	<row>
+		<button text="default" ontap="default" />
+		<button text="script" ontap="script" />
+	</row>
+	
 	<row weight="wrap">
 		<label text="Windows" />
 	</row>
