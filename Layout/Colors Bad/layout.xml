@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<row>
+		<button text="color" color="black" />
+	</row>
+	<row>
+		<button text="lightcolor" lightcolor="black" />
+	</row>
+	<row>
+		<button text="darkcolor" darkcolor="black" />
+	</row>
+	<row>
+		<button text="light" light="normal:black" />
+	</row>
+	<row>
+		<button text="dark" dark="normal:black" />
+	</row>
+</layout>
