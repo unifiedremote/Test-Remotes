@@ -3,6 +3,12 @@
 	<row weight="wrap">
 		<label id="info" text="" />
 	</row>
+	<row weight="wrap">
+		<label id="offset" text="" />
+	</row>
+	<row>
+		<button text="Offset" ontap="offset" />
+	</row>
 	<row>
 		<slider onchange="throttle" text="Throttle" progress="50" progressmax="100" />
 	</row>
