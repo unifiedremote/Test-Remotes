@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<row>
+		<button text="max" ontap="max" />
+	</row>
+	<row>
+		<button text="min" ontap="min" />
+	</row>
+</layout>
