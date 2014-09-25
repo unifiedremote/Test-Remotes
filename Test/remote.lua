@@ -1,7 +1,4 @@
-
--- Metadata
-
--- Actions
+local script = require "script";
 
 actions.foo = function ()
 
@@ -12,9 +9,7 @@ actions.bar = function ()
 end
 
 actions.test = function ()
-	libs.timer.interval(function ()
-		libs.server.update({ id = "label", text = "test" });
-	end, 100);
+	
 end
 
 -- Events

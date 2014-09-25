@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<row>
+		<button text="connect" ontap="connect" />
+	</row>
+	<row>
+		<button text="disconnect" ontap="disconnect" />
+	</row>
+	<row>
+		<button text="send" ontap="send" />
+	</row>
+	<row>
+		<label id="receive" text="waiting..." />
+	</row>
+</layout>

@@ -17,10 +17,10 @@ actions.batch = function ()
 end
 
 actions.powershell = function ()
-	layout.info.text = script.powershell(
-		"$pwd",
-		"ps | Where-Object { $_.Name -eq \"svchost\" }"
-	);
+	layout.info.text = script.powershell([[
+		$pwd
+		ps | Where-Object { $_.Name -eq \"svchost\" }
+	]]);
 end
 
 actions.apple = function ()
