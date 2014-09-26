@@ -11,8 +11,7 @@ function norm (v,min1,max1,min2,max2)
 	local factor1 = (v-min1)/(max1-min1);
 	local factor2 = factor1*(max2-min2);
 	local v2 = factor2 + min2;
-	
-	print(v);
+
 	return v2
 end
 
