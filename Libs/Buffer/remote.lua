@@ -59,4 +59,12 @@ events.focus = function ()
 	print(b7:read(1)); -- a
 	print(b7:read());  -- bc
 	
+	local b8 = libs.buffer.new();
+	b8:write("xxx");
+	
+	local b9 = libs.buffer.new();
+	b9:write("aaa");
+	b9:writebuffer(b8);
+	print(b9:tostring());
+	
 end
