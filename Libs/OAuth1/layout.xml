@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<row>
+		<text id="keys" multiline="true" text="" />
+	</row>
+	<row>
+		<text id="resp" multiline="true" text="" />
+	</row>
+	<row weight="wrap">
+		<button text="Test" ontap="test" />
+	</row>
+</layout>
