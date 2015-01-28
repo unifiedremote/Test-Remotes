@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-	<button ontap="foo" text="foo" />
+	<row>
+		<button ontap="foo" text="foo" />
+	</row>
+	<row>
+		<button ontap="run_with_input" text="run with input" />
+	</row>
 </layout>
