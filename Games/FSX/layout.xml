@@ -16,7 +16,7 @@
 		<button text="Pause" ontap="pause" />
 		<button icon="up" ontap="look_up" color="yellow" />
 		<button icon="down" ontap="look_down" color="yellow" />
-		<button text="Set Zero Offset" id="zero" ontap="zero" />
+		<button text=" " id="zero" ontap="zero" />
 	</row>
 	<row>
 		<button text="Flaps Dn" ontap="flaps_down" color="blue" />

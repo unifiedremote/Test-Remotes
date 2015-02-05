@@ -1,8 +1,5 @@
 local j = libs.joystick;
 local kb = libs.keyboard;
-local offset = { x = 0, y = 0, z = 0 };
-local curr = { x = 0, y = 0, z = 0 };
-local comp = { x = 0, y = 0, z = 0 };
 local throttle = 0;
 local MIN_AXIS = -32768;
 local MAX_AXIS = 32767;
@@ -19,25 +16,12 @@ events.focus = function ()
 	-- Load throttle
 	throttle = settings.throttle;
 	layout.throttle.progress = throttle;
-
-	-- Load offsets from saved settings
-	offset.x = settings.x;
-	offset.y = settings.y;
-	offset.z = settings.z;
-	if (offset.x ~= 0 and offset.y ~= 0 and offset.z ~= 0) then
-		layout.zero.text = offset.x .. "," .. offset.y .. "," .. offset.z;
-	end
 end
 
 
 events.blur = function ()
 	-- Save throttle
 	settings.throttle = throttle;
-	
-	-- Save offsets to settings
-	settings.x = offset.x;
-	settings.y = offset.y;
-	settings.z = offset.z;
 end
 
 
@@ -46,37 +30,18 @@ end
 ----------------------------------------------------------------------------------------
 
 
-actions.zero = function ()
-	-- Set zero position as current position
-	offset.x = curr.x;
-	offset.y = curr.y;
-	offset.z = curr.z;
-	layout.zero.text = offset.x .. "," .. offset.y .. "," .. offset.z;
-end
-
 actions.orientation = function (x, y, z)
-	-- Update current position
-	curr.x = x;
-	curr.y = y;
-	curr.z = z;
-	
-	-- Calculate compensated position
-	comp.x = x - offset.x;
-	comp.y = y - offset.y;
-	comp.z = z - offset.z;
-	
-	-- Update layout values
-	layout.x = comp.x;
-	layout.y = comp.y;
-	layout.z = comp.z;
-	
 	-- Map orientation values to joystick range
 	local SPAN = 90;
-	local x = -j.normalize(comp.y, -SPAN, SPAN, MIN_AXIS, MAX_AXIS);
-	local y = -j.normalize(comp.z, -SPAN, SPAN, MIN_AXIS, MAX_AXIS);
-	local z = -j.normalize(comp.x, -SPAN, SPAN, MIN_AXIS, MAX_AXIS);
+	local nx = j.normalize(-y, -SPAN, SPAN, MIN_AXIS, MAX_AXIS);
+	local ny = j.normalize(-z, -SPAN, SPAN, MIN_AXIS, MAX_AXIS);
+	local nz = j.normalize(-x, -SPAN, SPAN, MIN_AXIS, MAX_AXIS);
 	
-	j.look(x, y);
+	if (math.abs(z) > 90) then
+		libs.device.vibrate();
+	end
+	
+	j.look(nx, ny);
 	--j.rotate(z, 0);
 end
 
