@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<devices>
-	<device id="737788" clientDeviceId="5" name="Bokhylla" state="2" statevalue="0" methods="3" type="device" client="145459" clientName="Home" online="1" editable="1" />
-	<device id="737463" clientDeviceId="3" name="Japanlampa" state="2" statevalue="0" methods="35" type="device" client="145459" clientName="Home" online="1" editable="1" />
-	<device id="737802" clientDeviceId="6" name="Nexa B" state="1" statevalue="0" methods="35" type="device" client="145459" clientName="Home" online="1" editable="1" />
-	<device id="737804" clientDeviceId="7" name="Nexa C" state="2" statevalue="0" methods="35" type="device" client="145459" clientName="Home" online="1" editable="1" />
-	<device id="737817" clientDeviceId="8" name="Proove 3" state="2" statevalue="0" methods="35" type="device" client="145459" clientName="Home" online="1" editable="1" />
-	<device id="743494" clientDeviceId="11" name="S&#228;nglampa" state="2" statevalue="0" methods="3" type="device" client="145459" clientName="Home" online="1" editable="1" />
-</devices>
