@@ -3,6 +3,15 @@ local kb = libs.keyboard;
 local MIN_AXIS = -32768;
 local MAX_AXIS = 32767;
 
+
+events.blur = function ()
+	-- Release all keys!
+	kb.up("oem_period");
+	kb.up("oem_comma");
+	kb.up("pgup");
+	kb.up("pgdown");
+end
+
 ----------------------------------------------------------------------------------------
 -- Orientation Stuff
 ----------------------------------------------------------------------------------------
@@ -27,14 +36,12 @@ end
 
 --@help Apply brakes
 actions.brakes_apply = function ()
-	print("applying brakes");
 	kb.down("oem_period");
 	kb.down("oem_comma");
 end
 
 --@help Release brakes
 actions.brakes_release = function ()
-	print("released brakes");
 	kb.up("oem_period");
 	kb.up("oem_comma");
 end
@@ -56,7 +63,6 @@ end
 
 --@help Pause
 actions.pause = function ()
-	print("pause");
 	kb.stroke("space");
 end
 
