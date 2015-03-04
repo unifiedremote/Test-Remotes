@@ -67,4 +67,10 @@ events.focus = function ()
 	b9:writebuffer(b8);
 	print(b9:tostring());
 	
+	local b10 = libs.buffer.new();
+	b10:writeline("foo");
+	b10:writeline("bar");
+	print(b10:readline());
+	print(b10:readline());
+	print(b10:readline());
 end
