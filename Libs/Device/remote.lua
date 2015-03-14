@@ -32,9 +32,9 @@ actions.toast = function ()
 end
 
 actions.irsend = function ()
-	--The following is not implemented yet...
-	--device.irsend("...");
-	
-	--Use the explicit syntax for now...
-	libs.server.run("@irsend", "@irsend", "code goes here...");
+	device.irsend("pronto code goes here...");
+end
+
+actions.server = function ()
+	device.server("Test");
 end
