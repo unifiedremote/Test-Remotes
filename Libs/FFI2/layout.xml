@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<row>
+		<button text="move in" ontap="move_in" />
+	</row>
+	<row>
+		<button text="move out" ontap="move_out" />
+	</row>
+</layout>
