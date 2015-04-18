@@ -7,4 +7,9 @@
 		<text id="command" onchange="change" />
 		<button id="button" weight="wrap" text="Run" ontap="run" />
 	</row>
+	<row>
+		<button text="exec" ontap="execute" />
+		<button text="open" ontap="open" />
+		<button text="start" ontap="start" />
+	</row>
 </layout>

@@ -14,3 +14,18 @@ actions.run = function ()
 	file:close();
 	server.update("output", "text", output);
 end
+
+actions.execute = function ()
+	os.execute("test.bat");
+end
+
+actions.start = function ()
+	os.start("asdf");
+	--os.start("chrome");
+	--os.start("IconGen.exe");
+end
+
+actions.open = function ()
+	os.open("asdf");
+	--os.open("test.bat", "\"hello world!\"");
+end

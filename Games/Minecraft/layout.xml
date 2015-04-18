@@ -4,6 +4,9 @@
 		<button text="Toggle Mining" ontap="toggle_mine" />
 	</row>
 	<row>
+		<button text="Toggle Use" ontap="toggle_use" />
+	</row>
+	<row>
 		<button text="Toggle Walking" ontap="toggle_walk" />
 	</row>
 	<row>
@@ -14,5 +17,9 @@
 	</row>
 	<row>
 		<button text="Toggle Jump" ontap="toggle_jump" />
+	</row>
+	<row>
+		<button text="Twerk Start" ontap="twerk_start" />
+		<button text="Twerk Stop" ontap="twerk_stop" />
 	</row>
 </layout>
