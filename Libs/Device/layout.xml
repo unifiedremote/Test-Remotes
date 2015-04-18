@@ -27,4 +27,7 @@
 	<row>
 		<button text="irsend (run on device only)" ontap="@irsend,foo" />
 	</row>
+	<row>
+		<button text="server" ontap="server" />
+	</row>
 </layout>
