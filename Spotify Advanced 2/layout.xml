@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout color="green" onLaunch="launch">
+	<tabs onChange="changetab">
+		<tab text="Player"> 
+			<row weight="wrap">
+				<label id="currtitle" text="[Not Playing]" />
+			</row>
+			<row>
+				<image id="currimg" />
+			</row>
+			<row weight="wrap">
+				<slider id="currvol" text="Volume" progressmax="100" onup="volchange" />
+			</row>
+			<row weight="wrap">
+				<slider id="currpos" text="Position" onup="poschange" />
+			</row>
+			<row weight="wrap">
+				<button id="suffle" icon="shuffle" ontap="shuffle" />
+				<button id="play" icon="play" ontap="play_pause" />
+				<button id="repeat" icon="repeat" ontap="repeating" />
+			</row>
+		</tab>
+		<tab text="Playlists">
+			<row>
+				<list id="playlists" ontap="selected">
+					<item>Loading...</item>
+				</list>
+			</row>
+			<row weight="wrap">
+				<button icon="previous" ontap="previous" />
+				<button icon="back" ontap="back" />
+				<button icon="next" ontap="next" />
+			</row>
+		</tab>
+		<tab text="Search">
+			<row weight="wrap">
+				<text hint="Search..." onChange="changeq" weight="6"/>
+				<button text="Go" weight="1" onTap="go"/>
+			</row>
+			<row>
+				<list id="mainlist" ontap="mainlist"/>
+				<list id="tracklist" ontap="tracklist" visibility="gone">
+					<item>Searching...</item>
+				</list>
+				<list id="artistInfoList" ontap="artistInfoList" visibility="gone">
+					<item>Searching...</item>
+				</list>
+				<list id="playlisttracklist" ontap="playlisttracklist" visibility="gone">
+					<item>Searching...</item>
+				</list>
+				<list id="playlistlist" ontap="mainlist" visibility="gone">
+					<item>Searching...</item>
+				</list>
+			</row>
+		</tab>
+	</tabs>	
+</layout>
