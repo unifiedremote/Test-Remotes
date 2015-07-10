@@ -1,8 +1,9 @@
-local http = libs.http;
-local utf8 = libs.utf8;
+local http = require("http");
+local utf8 = require("utf8");
+local server = require("server");
 local state = 0;
 local meinfo;
-playlist = {};
+
 local tracks;
 local savedTracks = {};
 local trackitems = {};
@@ -13,18 +14,51 @@ local PLAYLIST_STATE_INIT = 0;
 local PLAYLIST_STATE_LISTS = 1;
 local PLAYLIST_STATE_TRACKS = 2;
 
-local playlist_lists;
+playlist = {};
+local playlist_lists = {};
 local playlist_current;
 local playlist_tracks;
-local playlist_state;
+local playlist_state = 0;
+
+function playlist_log (str)
+	print("playlist.lua: " .. str);
+end
+
+function spotify_api_v1_url (path)
+	return "https://api.spotify.com/v1" .. path
+end
+
+function open_connect_dialog()
+	server.update({ 
+	    type = "dialog", 
+	    text = "Connect your Spotify account, please click 'Connect Spotify' in the manager", 
+	    ontap = "connect_dialog",
+	    children = {
+	    	{ type = "button", text = "Open On Computer" },
+	        { type = "button", text = "Cancel" }
+	    }
+	});
+end
+
+actions.connect_dialog = function(i)
+	if (i == 0) then
+		os.open("http://localhost:9510/web/#/status/connect");
+	elseif (i == 1) then 
+		playlist_log("Aborted by user..");
+	else
+		playlist_log("Invalid dialog option.... i=" .. i);
+	end
+end
 
 function playlist_init ()
 	playlist_state = 0;
 
-	local url = "https://api.spotify.com/v1/me";
+	playlist_log("Playlist init");
+	local url = spotify_api_v1_url("/me");
 	http.request({ method = "get", url = url, connect = "spotify" }, function (err, resp)
 		if (err) then
 			meinfo = nil;
+			open_connect_dialog();
 		else
 			meinfo = libs.data.fromjson(resp.content);
 			playlist_state = 0;
@@ -35,30 +69,42 @@ end
 
 function playlist_back ()
 	playlist_state = playlist_state - 1;
+	if (playlist_state < 0) then
+		playlist_state = 0;
+	end
+	print("playlist_state: " .. playlist_state);
 	playlist_update();
 end
 
 function playlist_update ()
-
 	if (playlist_state == 0) then
 		local items = {};
 		for i = 1, #playlist_lists.items do
 			table.insert(items, { type = "item", text = playlist_lists.items[i].name});
 		end
-		libs.server.update({
-			id= "playlists",
+		server.update({
+			id = "playlists",
 			children = items
 		});
 		playlist_state = 1;
+
+		server.update({
+			id = "back",
+			visibility = "insivible"
+		});
 		
 	elseif (playlist_state == 1) then
-		playlist_current = playlist_lists.items[index+1];
 		playlist_get_tracks(0);
 		playlist_state = 2;
+
+		server.update({
+			id = "back",
+			visibility = "visible"
+		});
 		
 	elseif (playlist_state == 2) then
 		if (#savedTracks > index) then
-			play(savedTracks[index +1].track.uri, playlist_current.uri);
+			webhelper_play(savedTracks[index +1].track.uri, playlist_current.uri);
 		else
 			offset = offset + 100;
 			playlist_get_tracks(offset);
@@ -74,10 +120,10 @@ function playlist_select (index)
 	elseif (playlist_state == 1) then
 		playlist_current = playlist_lists.items[index+1];
 		playlist_get_tracks(0);
-		
+
 	elseif (playlist_state == 2) then
 		if (#savedTracks > index) then
-			play(savedTracks[index +1].track.uri, playlist_current.uri);
+			webhelper_play(savedTracks[index +1].track.uri, playlist_current.uri);
 		else
 			offset = offset + 100;
 			playlist_get_tracks(offset);
@@ -87,57 +133,100 @@ function playlist_select (index)
 end
 
 function playlist_get_lists ()
-	print("loading lists ...");
-	local url = "https://api.spotify.com/v1/users/" .. meinfo.id .. "/playlists"; 
+	playlist_log("Loading playlists ...");
+	local url = spotify_api_v1_url("/users/" .. meinfo.id .. "/playlists"); 
 	http.request({ method = "get", url = url, connect = "spotify" }, function (err, resp)
 		if (err) then
-			print("err: " .. err);
+			playlist_log("err: " .. err);
 			playlist_lists = nil;
 		else
-			print("got lists");
 			playlist_lists = libs.data.fromjson(resp.content);
+			playlist_log("Found " .. (#playlist_lists) .. " lists");
 			playlist_update();
 		end
 	end);
 end
 
+function playlist_update_playing () 
+	if (playlist_state == 1) then
+		-- 
+	end
+	if (playlist_state == 2) then
+		for i = 1, #trackitems do
+			trackitems[i].checked = (utf8.equals(trackitems[i].uri, playing_uri));
+		end
+		libs.server.update({
+			id = "playlists",
+			children = trackitems
+		});
+	end
+end
+
 function playlist_get_tracks(offset)
-	print("loading tracks ...");
+	playlist_log("loading tracks ...");
 	
-	local url = "https://api.spotify.com/v1/users/";
-	url = url .. playlist_current.owner.id .. "/playlists/";
-	url = url .. playlist_current.id .. "/tracks?fields=items.track(uri,name,available_markets),total,next&limit=100&offset="..offset;
+	local filter = "items.track(uri,name,artists.name,available_markets),total,next";
+	
+	get_playlist(playlist_current.owner.id, playlist_current.id, filter, offset, function (err, pllist)
+		if (err) then 
+			tracks = nil;
+			return;
+		end
+
+		playlist_tracks = pllist.items;
+		if (playlist_tracks ~= nil) then
+			if (#trackitems > 0 and utf8.equals(trackitems[#trackitems].text, "Load more tracks...")) then
+				table.remove(trackitems, #trackitems);
+			end
+			for i = 1, #playlist_tracks do
+				if (playlist.contains(playlist_tracks[i].track.available_markets, meinfo.country)) then
+					local title = playlist_tracks[i].track.name .. "\n" .. format_artists(playlist_tracks[i].track.artists);
+					local uri = playlist_tracks[i].track.uri;
+					table.insert(trackitems, { type = "item", text = title, uri = uri});
+					table.insert(savedTracks, playlist_tracks[i]); 
+				end
+			end
+			if (pllist.next ~= nil) then 
+				table.insert(trackitems, { type = "item", text="Load more tracks..."});
+			end
+			
+			libs.server.update({
+				id= "playlists",
+				children = trackitems
+			});
+			
+			playlist_log("Number of tracks:" .. #playlist_tracks);
+
+		end
+		playlist_state = 2;
+
+	end);
+end
+
+function get_playlist(user, id, filter, offset, callback)
+	local params = "fields=" .. filter .. "&limit=100&offset=" .. offset;
+	local url = spotify_api_v1_url("/users/" .. user .. "/playlists/" .. id .. "/tracks?" .. params);
 	
 	http.request({ method = "get", url = url, connect = "spotify" }, function (err, resp)
 		if (err) then
-			print("err: " .. err);
-			tracks = nil;
+			playlist_log("HTTP.error: " .. err .. "\n" .. url);
+			callback(err, nil)
 		else
-			local pllist= libs.data.fromjson(resp.content);
-			
-			playlist_tracks = pllist.items;
-			if (playlist_tracks ~= nil) then
-				if (#trackitems > 0 and utf8.equals(trackitems[#trackitems].text, "Load more tracks...")) then
-					table.remove(trackitems, #trackitems);
-				end
-				for i = 1, #playlist_tracks do
-					if (playlist.contains(playlist_tracks[i].track.available_markets, meinfo.country)) then
-						table.insert(trackitems, { type = "item", text = playlist_tracks[i].track.name});
-						table.insert(savedTracks, playlist_tracks[i]); 
-					end
-				end
-				if (pllist.next ~= nil) then 
-					table.insert(trackitems, { type = "item", text="Load more tracks..."});
-				end
-				libs.server.update({
-					id= "playlists",
-					children = trackitems
-				});
-				print("num tracks:" .. #playlist_tracks);
-			end
-			playlist_state = 2;
+			local pllist = libs.data.fromjson(resp.content);
+			callback(nil, pllist);
 		end
 	end);
+end
+
+function format_artists(artists)
+	local builder = {};
+	if (#artists == 1) then 
+		return artists[1].name
+	end
+	for i = 1, #artists do
+		table.insert(builder, artists[i].name);
+	end
+	return utf8.join(", ", builder);
 end
 
 function playlist.contains(list, item) 

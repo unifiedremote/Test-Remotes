@@ -7,8 +7,9 @@ local query = nil;
 local mainitems = {};
 local trackitems = {};
 local meinfo = nil;
+
 actions.changetab = function (index)
-	print(index);
+	print("Changed to tab: " .. index);
 	if(index == 2) then
 		libs.http.request({ method = "get", url = "https://api.spotify.com/v1/me", connect = "spotify" }, 
 			function (err, resp)
@@ -26,6 +27,7 @@ end
 actions.changeq = function (text)
    	query = text;
 end
+
 actions.go = function ( )
 	local types = {};
 	table.insert(types, "track");
