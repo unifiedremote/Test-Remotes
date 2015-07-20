@@ -1,9 +1,8 @@
 local http = require("http");
 local utf8 = require("utf8");
 local server = require("server");
-local state = 0;
-local meinfo;
 
+local state = 0;
 local tracks;
 local savedTracks = {};
 local trackitems = {};
@@ -14,40 +13,19 @@ local PLAYLIST_STATE_INIT = 0;
 local PLAYLIST_STATE_LISTS = 1;
 local PLAYLIST_STATE_TRACKS = 2;
 
-playlist = {};
 local playlist_lists = {};
 local playlist_current;
 local playlist_tracks;
 local playlist_state = 0;
 
+-- Globals
+meinfo = {};
+playlist = {};
+
+include("spotify_api_v1.lua");
+
 function playlist_log (str)
 	print("playlist.lua: " .. str);
-end
-
-function spotify_api_v1_url (path)
-	return "https://api.spotify.com/v1" .. path
-end
-
-function open_connect_dialog()
-	server.update({ 
-	    type = "dialog", 
-	    text = "Connect your Spotify account, please click 'Connect Spotify' in the manager", 
-	    ontap = "connect_dialog",
-	    children = {
-	    	{ type = "button", text = "Open On Computer" },
-	        { type = "button", text = "Cancel" }
-	    }
-	});
-end
-
-actions.connect_dialog = function(i)
-	if (i == 0) then
-		os.open("http://localhost:9510/web/#/status/connect");
-	elseif (i == 1) then 
-		playlist_log("Aborted by user..");
-	else
-		playlist_log("Invalid dialog option.... i=" .. i);
-	end
 end
 
 function playlist_init ()
@@ -155,7 +133,7 @@ function playlist_update_playing ()
 		for i = 1, #trackitems do
 			trackitems[i].checked = (utf8.equals(trackitems[i].uri, playing_uri));
 		end
-		libs.server.update({
+		server.update({
 			id = "playlists",
 			children = trackitems
 		});
@@ -167,6 +145,11 @@ function playlist_get_tracks(offset)
 	
 	local filter = "items.track(uri,name,artists.name,available_markets),total,next";
 	
+	if (playlist_current == nil) then 
+		table.insert(savedTracks, { type = "item", text = "No current playlist"}); 
+		return;
+	end
+
 	get_playlist(playlist_current.owner.id, playlist_current.id, filter, offset, function (err, pllist)
 		if (err) then 
 			tracks = nil;
@@ -190,7 +173,7 @@ function playlist_get_tracks(offset)
 				table.insert(trackitems, { type = "item", text="Load more tracks..."});
 			end
 			
-			libs.server.update({
+			server.update({
 				id= "playlists",
 				children = trackitems
 			});
@@ -216,17 +199,6 @@ function get_playlist(user, id, filter, offset, callback)
 			callback(nil, pllist);
 		end
 	end);
-end
-
-function format_artists(artists)
-	local builder = {};
-	if (#artists == 1) then 
-		return artists[1].name
-	end
-	for i = 1, #artists do
-		table.insert(builder, artists[i].name);
-	end
-	return utf8.join(", ", builder);
 end
 
 function playlist.contains(list, item) 

@@ -8,10 +8,10 @@ local keyboard = require("keyboard");
 local keys;
 local selectedPlaylist;
 
-include("common.lua")
-include("playlist.lua")
-include("search.lua");
+include("common.lua");
 include("webhelper.lua");
+include("playlist.lua");
+include("search.lua");
 
 events.detect = function ()
     return libs.fs.exists("/Applications/Spotify.app");
@@ -42,7 +42,7 @@ end
 --@help Change Position
 --@param pos:number Set Position
 actions.poschange = function (pos)
-	send_script("set player position to " .. pos)
+    send_script("set player position to " .. pos)
 end
 
 --@help Toggle Shuffle 

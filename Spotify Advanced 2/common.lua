@@ -1,8 +1,8 @@
-local server = libs.server;
-local timer = libs.timer;
-local http = libs.http;
-local data = libs.data;
-local utf8 = libs.utf8;
+local server = require("server");
+local timer = require("timer");
+local http = require("http");
+local data = require("data");
+local utf8 = require("utf8");
 
 playing = false;
 playing_uri = "";
@@ -18,7 +18,6 @@ function get_cover_art_url (uri, callback)
 		else
 			local json = data.fromjson(resp);
 			local result = utf8.replace(json.thumbnail_url, "cover", "320");
-			print(result);
 			callback(nil, result);
 		end
 	end);
@@ -44,17 +43,21 @@ function update ()
 			print("Stopping update");
 			return;
 		end
+
+		playing = (status.playing ~= 0);
 		
-		playing = status.playing ~= 0;
-		local volume = math.ceil(status.volume * 100);
-		
+		local volume = 0;
 		local track = "";
 		local artist = "";
 		local album = "";
 		local pos = 0;
 		local duration = 0;
 		local uri = "";
-		
+
+		if (status.volume ~= nil) then
+			volume = math.ceil(status.volume * 100);
+		end
+
 		if (status.track ~= nil) then
 			uri = status.track.track_resource.uri;
 			pos = math.ceil(status.playing_position);
@@ -101,7 +104,7 @@ function update ()
 		server.update(
 			{ id = "currtitle", text = name },
 			{ id = "currvol", progress = volume },
-			{ id = "currpos", progress = math.floor(pos / duration * 100), progressMax = 100, text = libs.data.sec2span(pos) .. " / " .. libs.data.sec2span(duration) }
+			{ id = "currpos", progress = math.floor(pos), progressMax = duration, text = libs.data.sec2span(pos) .. " / " .. libs.data.sec2span(duration) }
 		);
 
 		server_update_play_state();
@@ -117,8 +120,26 @@ function server_update_play_state()
 	else 
 		icon = "pause";
 	end
-	server.update({ id = "play", icon = icon });
+	server.update(
+		{ id = "play", icon = icon }
+	);
 end
+
+function format_artists(artists)
+	local builder = {};
+	if (#artists == 1) then 
+		return artists[1].name
+	end
+	for i = 1, #artists do
+		table.insert(builder, artists[i].name);
+	end
+	return utf8.join(", ", builder);
+end
+
+function format_track(item)
+	return format_artists(item.artists) .. " - " .. item.name;
+end
+
 
 -------------------------------------------------------------------------------------------
 -- State

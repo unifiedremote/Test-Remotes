@@ -3,7 +3,7 @@ local data = require("data");
 local utf8 = require("utf8");
 local timer = require("timer");
 
-local webhelper_port = 4381;
+local webhelper_port = 0;
 local webhelper_key = "";
 local webhelper_cfid = "";
 
@@ -20,7 +20,7 @@ end
 function webhelper_init (done)
 	webhelper_key = "";
 	webhelper_cfid = "";
-	webhelper_port = 4381;
+	webhelper_port = 4379;
 	
 	webhelper_get_oauth(function (key)
 		webhelper_key = key;
@@ -42,7 +42,6 @@ function webhelper_get_oauth (done)
 	req.method = "GET";
 	req.url = "https://embed.spotify.com/?uri=spotify:track:5Zp4SWOpbuOdnsxLqwgutt";
 	req.headers = headers;
-	
 	http.request(req, function (err, resp)
 		local raw = resp.content;
 		local str = utf8.new(raw);
@@ -53,17 +52,21 @@ function webhelper_get_oauth (done)
 				pos = pos + 1;
 				local pos2 = str:indexof("'", pos);
 				local key = str:sub(pos, pos2 - pos);
-				webhelper_log("key: " .. key);
+				webhelper_log("OAuth key: " .. key);
 				done(key);
 				return;
 			end
 		end
+		done(nil);
 	end);
 end
 
 function webhelper_get_cfid (done)
 	webhelper_req("simplecsrf/token.json?", function (resp)
 		local json = data.fromjson(resp);
+		if (json.token == nil) then
+			print("TOKEN is null :( -> " .. data.tojson(json));
+		end
 		webhelper_log("cfid: " .. json.token);
 		done(json.token);
 	end);
@@ -73,20 +76,25 @@ end
 -- Request Logic
 -------------------------------------------------------------------------------------------
 
-function webhelper_req_retry ()
-	if (webhelper_port == 4381) then
-		webhelper_log("testing fallback port");
-		webhelper_port = 4380;
-		webhelper_req(path, oauth, cfid, done);
+function webhelper_req_retry (path, done)
+	if (webhelper_port < 4385) then
+		webhelper_port = webhelper_port + 1;
+	else
+		webhelper_port = 4379;
 	end
+	
+	webhelper_log("Retrying with port: " .. webhelper_port);
+	webhelper_req(path, done);
 end
 
 function webhelper_req (path, done)
 	local params = "&ref=&cors=&_=" .. timer.time();
 	params = params .. "&oauth=" .. webhelper_key;
+
 	if (webhelper_cfid ~= "") then
 		params = params .. "&csrf=" .. webhelper_cfid;
 	end
+	
 	params = params .. "&returnafter=1";
 	params = params .. "&returnon=login%2Clogout%2Cplay%2Cpause%2Cerror%2Cap";
 	
@@ -104,8 +112,11 @@ function webhelper_req (path, done)
 	
 	http.request(req, function (err, resp)
 		if (err) then
-			webhelper_req_retry(path, oauth, cfid, done);
-		elseif (done) then
+			webhelper_req_retry(path, done);
+			return;
+		end
+
+		if (done) then
 			done(resp.content);
 		end
 	end);
