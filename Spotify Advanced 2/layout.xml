@@ -34,15 +34,15 @@
 		</tab>
 		<tab text="Search">
 			<row weight="wrap">
-				<text hint="Search..." onchange="changed_search" weight="6"/>
+				<text hint="Search..." onchange="changed_search" weight="6" text="kygo" />
 				<button text="Go" weight="1" onTap="go"/>
 			</row>
 			<row>
 				<list id="mainlist" ontap="mainlist"/>
-				<list id="tracklist" ontap="tracklist_tap" visibility="gone">
+				<list id="artistinfolist" ontap="artistinfolist_tap" visibility="gone">
 					<item>Searching...</item>
 				</list>
-				<list id="artistinfolist" ontap="artistinfolist_tap" visibility="gone">
+				<list id="tracklist" ontap="tracklist_tap" visibility="gone">
 					<item>Searching...</item>
 				</list>
 				<list id="playlistlist" ontap="playlistlist_tap" visibility="gone">
