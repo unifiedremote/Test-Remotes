@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout color="green" onLaunch="launch">
+<layout color="#1ED760" onLaunch="launch">
 	<tabs>
 		<tab text="Player"> 
 			<row weight="wrap">
 				<label id="currtitle" text="[Loading]" />
 			</row>
 			<row>
-				<image id="currimg" />
+				<image color="#222326" id="currimg" image="icon_hires.png" />
 			</row>
 			<row weight="wrap">
 				<button icon="previous" ontap="previous" />
