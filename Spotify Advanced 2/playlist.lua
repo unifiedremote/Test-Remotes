@@ -13,29 +13,30 @@ local PLAYLIST_STATE_INIT = 0;
 local PLAYLIST_STATE_LISTS = 1;
 local PLAYLIST_STATE_TRACKS = 2;
 
-local playlist_lists = {};
 local playlist_current;
 local playlist_tracks;
+local playlist_lists = {};
 local playlist_state = 0;
 
 -- Globals
 meinfo = {};
 playlist = {};
 
-include("spotify_api_v1.lua");
-
 function playlist_log (str)
 	print("playlist.lua: " .. str);
 end
 
+-------------------------------------------------------------------------------------------
+-- Playlist initialization
+-------------------------------------------------------------------------------------------
+
 function playlist_init ()
 	playlist_state = 0;
 
-	playlist_log("Playlist init");
 	local url = spotify_api_v1_url("/me");
 	http.request({ method = "get", url = url, connect = "spotify" }, function (err, resp)
 		if (err) then
-			print(err);
+			playlist_log(err);
 			meinfo = nil;
 			server.update({
 				id = "playlists",
@@ -49,32 +50,35 @@ function playlist_init ()
 	end);
 end
 
+
+-------------------------------------------------------------------------------------------
+-- Playlist logic
+-------------------------------------------------------------------------------------------
+
 function playlist_back ()
-	playlist_state = playlist_state - 1;
+	playlist_state = playlist_state - 2;
 	if (playlist_state < 0) then
 		playlist_state = 0;
 	end
-	print("playlist_state: " .. playlist_state);
 	playlist_update();
 end
 
 function playlist_update ()
+	-- Update playlists
 	if (playlist_state == 0) then
 		local items = {};
 		for i = 1, #playlist_lists.items do
-			table.insert(items, { type = "item", text = playlist_lists.items[i].name});
+			local playlist = playlist_lists.items[i];
+			local fmt = playlist_format(playlist);
+			table.insert(items, { type = "item", text = fmt});
 		end
 		server.update({
 			id = "playlists",
 			children = items
 		});
 		playlist_state = 1;
-
-		server.update({
-			id = "back",
-			visibility = "insivible"
-		});
-		
+	
+	-- Update playlist contents
 	elseif (playlist_state == 1) then
 		playlist_get_tracks(0);
 		playlist_state = 2;
@@ -84,6 +88,7 @@ function playlist_update ()
 			visibility = "visible"
 		});
 		
+	-- Update with more track to playlist contents
 	elseif (playlist_state == 2) then
 		if (#savedTracks > index) then
 			webhelper_play(savedTracks[index +1].track.uri, playlist_current.uri);
@@ -101,13 +106,18 @@ function playlist_select (index)
 		return;
 	end
 	
+	-- Get and show playlists
 	if (playlist_state == 0) then
 		playlist_get_lists();
 		
+	-- Get playlist contents
 	elseif (playlist_state == 1) then
 		playlist_current = playlist_lists.items[index+1];
+		trackitems = {};
+		savedTracks = {};
 		playlist_get_tracks(0);
 
+	-- Get more playlist tracks
 	elseif (playlist_state == 2) then
 		if (#savedTracks > index) then
 			webhelper_play(savedTracks[index +1].track.uri, playlist_current.uri);
@@ -118,6 +128,26 @@ function playlist_select (index)
 		
 	end
 end
+
+function playlist_update_playing () 
+	if (playlist_state == 1) then
+		-- Sorry but we are not able to tell what playlist is running
+	end
+	if (playlist_state == 2) then
+		for i = 1, #trackitems do
+			trackitems[i].checked = (utf8.equals(trackitems[i].uri, playing_uri));
+		end
+		server.update({
+			id = "playlists",
+			children = trackitems
+		});
+	end
+end
+
+
+-------------------------------------------------------------------------------------------
+-- Fetch information
+-------------------------------------------------------------------------------------------
 
 function playlist_get_lists ()
 	playlist_log("Loading playlists ...");
@@ -132,21 +162,6 @@ function playlist_get_lists ()
 			playlist_update();
 		end
 	end);
-end
-
-function playlist_update_playing () 
-	if (playlist_state == 1) then
-		-- 
-	end
-	if (playlist_state == 2) then
-		for i = 1, #trackitems do
-			trackitems[i].checked = (utf8.equals(trackitems[i].uri, playing_uri));
-		end
-		server.update({
-			id = "playlists",
-			children = trackitems
-		});
-	end
 end
 
 function playlist_get_tracks(offset)
@@ -171,10 +186,12 @@ function playlist_get_tracks(offset)
 				table.remove(trackitems, #trackitems);
 			end
 			for i = 1, #playlist_tracks do
-				if (playlist.contains(playlist_tracks[i].track.available_markets, meinfo.country)) then
-					local title = playlist_tracks[i].track.name .. "\n" .. format_artists(playlist_tracks[i].track.artists);
-					local uri = playlist_tracks[i].track.uri;
-					table.insert(trackitems, { type = "item", text = title, uri = uri});
+				local track = playlist_tracks[i].track;
+				if (playlist.contains(track.available_markets, meinfo.country)) then
+					local title = format_track_2line(track);
+					local uri = track.uri;
+					local checked = (uri == playing_uri);
+					table.insert(trackitems, { type = "item", text = title, uri = uri, checked = checked});
 					table.insert(savedTracks, playlist_tracks[i]); 
 				end
 			end

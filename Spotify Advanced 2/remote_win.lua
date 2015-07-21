@@ -9,8 +9,9 @@ local win = require("win");
 local keys;
 local selectedPlaylist;
 
-include("common.lua")
-include("playlist.lua")
+include("common.lua");
+include("spotify_api_v1.lua");
+include("playlist.lua");
 include("search.lua");
 include("webhelper.lua");
 

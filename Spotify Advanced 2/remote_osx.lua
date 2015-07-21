@@ -9,6 +9,7 @@ local keys;
 local selectedPlaylist;
 
 include("common.lua");
+include("spotify_api_v1.lua");
 include("webhelper.lua");
 include("playlist.lua");
 include("search.lua");

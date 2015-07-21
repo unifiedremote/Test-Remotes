@@ -4,11 +4,9 @@ local utf8 = require("utf8");
 local server = require("server");
 local timer = require("timer");
 
-local query = "avicii";
+local query = "";
 local mainitems = {};
 local trackitems = {};
-
-include("spotify_api_v1.lua");
 
 actions.changed_search = function (text)
    	query = text;
@@ -46,7 +44,7 @@ actions.go = function ( )
 				table.insert(mainitems, {type = "item", text = "Tracks\nTop " .. limit .. " tracks",  checked = true, stype = 5});
 				local titems = res.tracks.items;
 				for i = 1, #titems do
-					local fmt = format_track(titems[i]);
+					local fmt = format_track_2line(titems[i]);
 					local checked = titems[i].uri == playing_uri;
 					table.insert(mainitems, {type = "item", text = fmt, stype = 1, track = titems[i], checked = checked});
 				end
@@ -55,24 +53,27 @@ actions.go = function ( )
 				table.insert(mainitems, {type = "item", text = "Artists\nTop " .. limit .. " artists",  checked = true, stype = 6});
 				local titems = res.artists.items;
 				for i = 1, #titems do
-					local fmt = titems[i].name .. "\n" .. "Popularity: " .. titems[i].popularity .. " /  100";
-					table.insert(mainitems, {type = "item", text = fmt, stype = 2, artist = titems[i]});
+					local artist = titems[i];
+					local fmt = format_artist(artist);
+					table.insert(mainitems, {type = "item", text = fmt, stype = 2, artist = artist});
 				end
 			end
 			if(res.albums ~= nil) then
 				table.insert(mainitems, {type = "item", text = "Albums\nTop " .. limit .. " albums",  checked = true, stype = 4});
 				local aitems = res.albums.items;
 				for i = 1, #aitems do
-					local fmt = aitems[i].name;
-					table.insert(mainitems, {type = "item", text = aitems[i].name, stype = 0, album = aitems[i]});
+					local album = aitems[i];
+					local fmt = format_album(album);
+					table.insert(mainitems, {type = "item", text = fmt, stype = 0, album = album});
 				end
 			end
 			if(res.playlists ~= nil) then
 				table.insert(mainitems, {type = "item", text = "Playlists\nTop " .. limit .. " playlists",  checked = true, stype = 7});
 				local titems = res.playlists.items;
 				for i = 1, #titems do
-					local fmt = titems[i].name .. "\n" .. titems[i].tracks.total .. " tracks";
-					table.insert(mainitems, {type = "item", text = fmt, stype = 3, playlist = titems[i]});
+					local playlist = titems[i];
+					local fmt = format_playlist(playlist);
+					table.insert(mainitems, {type = "item", text = fmt, stype = 3, playlist = playlist});
 				end
 			end
 			server.update({id = "mainlist", children = mainitems});
