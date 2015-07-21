@@ -35,8 +35,12 @@ function playlist_init ()
 	local url = spotify_api_v1_url("/me");
 	http.request({ method = "get", url = url, connect = "spotify" }, function (err, resp)
 		if (err) then
+			print(err);
 			meinfo = nil;
-			open_connect_dialog();
+			server.update({
+				id = "playlists",
+				children = { { type = "item", text = "Not logged in..." } }
+			});
 		else
 			meinfo = libs.data.fromjson(resp.content);
 			playlist_state = 0;
@@ -92,6 +96,11 @@ function playlist_update ()
 end
 
 function playlist_select (index)
+	if (not is_connected()) then
+		open_connect_dialog();
+		return;
+	end
+	
 	if (playlist_state == 0) then
 		playlist_get_lists();
 		

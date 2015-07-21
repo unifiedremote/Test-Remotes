@@ -6,6 +6,7 @@ local utf8 = require("utf8");
 
 playing = false;
 playing_uri = "";
+playing_duration = 0;
 
 -------------------------------------------------------------------------------------------
 -- Spotify Cover Art Grabber
@@ -101,6 +102,7 @@ function update ()
 		
 		Playing = playing;
 		
+		playing_duration = duration;
 		server.update(
 			{ id = "currtitle", text = name },
 			{ id = "currvol", progress = volume },
@@ -146,7 +148,14 @@ end
 -------------------------------------------------------------------------------------------
 
 events.focus = function()
-	webhelper_init(function ()
+	ensure_connect();
+	
+	webhelper_init(function (err)
+		if (err) then
+			print(err);
+			layout.currtitle.text = "[Not Running]";
+			return;
+		end
 		stop = false;
 		playlist_init();
 		update();
@@ -157,9 +166,14 @@ events.blur = function ()
 	stop = true;
 end
 
+
 -------------------------------------------------------------------------------------------
 -- Actions
 -------------------------------------------------------------------------------------------
+
+actions.connect_dialog = function(i)
+	os.open("http://localhost:9510/web/#/status/connect");
+end
 
 actions.selected = function(index)
 	playlist_select(index);

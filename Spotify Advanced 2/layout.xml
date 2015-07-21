@@ -29,7 +29,7 @@
 			<row weight="wrap">
 				<toggle id="shuffle" icon="shuffle" onchange="shuffle" />
 				<button id="back" icon="back" ontap="back" />
-				<toggle id="repeat" icon="repeat" onchange="repeating" />
+				<button id="repeat" icon="repeat" ontap="repeating" />
 			</row>
 		</tab>
 		<tab text="Search">

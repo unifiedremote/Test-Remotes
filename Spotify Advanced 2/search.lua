@@ -34,10 +34,12 @@ actions.go = function ( )
 
 	http.request({ method = "get", url = url, connect = "spotify" }, function (err, resp)
 		if (err) then
-			print("Error");
+			print(err);
+			server.update({
+				id = "mainlist",
+				children = {{ type = "item", text = "Not logged in..."}}
+			});
 		else
-			print("Success");
-			
 			local res = libs.data.fromjson(resp.content);
 
 			if(res.tracks ~= nil) then
@@ -80,6 +82,11 @@ end
 
 local mainlist_selected = 0;
 actions.mainlist = function ( id )
+	if (not is_connected()) then
+		open_connect_dialog();
+		return;
+	end
+
 	mainlist_selected = id;
 	id = id + 1;
 	local it = mainitems[id];

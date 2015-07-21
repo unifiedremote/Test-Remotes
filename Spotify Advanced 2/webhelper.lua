@@ -22,9 +22,15 @@ function webhelper_init (done)
 	webhelper_cfid = "";
 	webhelper_port = 4379;
 	
-	webhelper_get_oauth(function (key)
+	webhelper_get_oauth(function (err, key)
+		if (err) then
+			return done(err);
+		end
 		webhelper_key = key;
-		webhelper_get_cfid(function (cfid)
+		webhelper_get_cfid(function (err, cfid)
+			if (err) then
+				return done(err);
+			end
 			webhelper_cfid = cfid;
 			done();
 		end); 
@@ -53,11 +59,11 @@ function webhelper_get_oauth (done)
 				local pos2 = str:indexof("'", pos);
 				local key = str:sub(pos, pos2 - pos);
 				webhelper_log("OAuth key: " .. key);
-				done(key);
+				done(nil, key);
 				return;
 			end
 		end
-		done(nil);
+		done("Could not find OAuth token");
 	end);
 end
 
@@ -65,10 +71,10 @@ function webhelper_get_cfid (done)
 	webhelper_req("simplecsrf/token.json?", function (resp)
 		local json = data.fromjson(resp);
 		if (json.token == nil) then
-			print("TOKEN is null :( -> " .. data.tojson(json));
+			return done("Could not find CSRF token");
 		end
 		webhelper_log("cfid: " .. json.token);
-		done(json.token);
+		done(nil, json.token);
 	end);
 end
 
