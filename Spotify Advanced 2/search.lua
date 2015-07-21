@@ -9,7 +9,7 @@ local mainitems = {};
 local trackitems = {};
 
 actions.changed_search = function (text)
-   	query = text;
+   	query = http.urlencode(utf8.trim(text));
 end
 
 actions.go = function ( )
