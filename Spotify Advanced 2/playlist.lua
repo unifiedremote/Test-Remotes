@@ -69,7 +69,7 @@ function playlist_update ()
 		local items = {};
 		for i = 1, #playlist_lists.items do
 			local playlist = playlist_lists.items[i];
-			local fmt = playlist_format(playlist);
+			local fmt = format_playlist(playlist);
 			table.insert(items, { type = "item", text = fmt});
 		end
 		server.update({
@@ -82,11 +82,6 @@ function playlist_update ()
 	elseif (playlist_state == 1) then
 		playlist_get_tracks(0);
 		playlist_state = 2;
-
-		server.update({
-			id = "back",
-			visibility = "visible"
-		});
 		
 	-- Update with more track to playlist contents
 	elseif (playlist_state == 2) then

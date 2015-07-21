@@ -3,6 +3,7 @@ local timer = require("timer");
 local http = require("http");
 local data = require("data");
 local utf8 = require("utf8");
+local fs  = require("fs");
 
 playing = false;
 playing_uri = "";
@@ -25,9 +26,19 @@ function get_cover_art_url (uri, callback)
 end
 
 function get_cover_art (uri, callback)
+	if (uri ~= nil and settings.last_cover_uri == uri) then 
+		-- Return cached data
+		local data = fs.read("latest_coverart.png");
+		callback(nil, data);
+		return;
+	end
+
 	get_cover_art_url(uri, function(err, url) 
 		http.get(url, function(err, raw)
 			callback(err, raw);
+			-- Save for later
+			fs.write("latest_coverart.png", raw);
+			settings.last_cover_uri = uri;
 		end);
 	end);
 end
@@ -103,10 +114,11 @@ function update ()
 		Playing = playing;
 		
 		playing_duration = duration;
+		local duraction_text = data.sec2span(pos) .. " / " .. data.sec2span(duration);
 		server.update(
 			{ id = "currtitle", text = name },
 			{ id = "currvol", progress = volume },
-			{ id = "currpos", progress = math.floor(pos), progressMax = duration, text = libs.data.sec2span(pos) .. " / " .. libs.data.sec2span(duration) }
+			{ id = "currpos", progress = math.floor(pos), progressMax = duration, text = duraction_text }
 		);
 
 		server_update_play_state();
@@ -127,6 +139,11 @@ function server_update_play_state()
 	);
 end
 
+-------------------------------------------------------------------------------------------
+-- Format string utils
+-------------------------------------------------------------------------------------------
+
+
 function format_artists(artists)
 	local builder = {};
 	if (#artists == 1) then 
@@ -142,6 +159,21 @@ function format_track(item)
 	return format_artists(item.artists) .. " - " .. item.name;
 end
 
+function format_track_2line(item)
+	return item.name .. "\n" .. format_artists(item.artists);
+end
+
+function format_playlist(playlist)
+	return playlist.name .. "\n" .. playlist.tracks.total .. " tracks";
+end
+
+function format_album(album)
+	return album.name .. "\n(" .. album.album_type .. ")";
+end
+
+function format_artist(artist)
+	return artist.name .. "\n" .. "Popularity: " .. artist.popularity .. " /  100";
+end
 
 -------------------------------------------------------------------------------------------
 -- State
@@ -157,6 +189,7 @@ events.focus = function()
 			return;
 		end
 		stop = false;
+		playing_uri = "";
 		playlist_init();
 		update();
 	end)
