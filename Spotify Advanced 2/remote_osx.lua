@@ -38,12 +38,14 @@ end
 --@param vol:number Set Volume
 actions.volchange = function (vol)
 	send_script("set sound volume to " .. vol);
+	update_quiet();
 end
 
 --@help Change Position
 --@param pos:number Set Position
 actions.poschange = function (pos)
-    send_script("set player position to " .. pos)
+    send_script("set player position to " .. pos);
+	update_quiet();
 end
 
 --@help Toggle Shuffle 

@@ -48,8 +48,20 @@ end
 -- Update
 -------------------------------------------------------------------------------------------
 
+local quiet = false;
+
+function update_quiet ()
+	quiet = true;
+end
+
 
 function update ()
+	if (quiet) then
+		quiet = false;
+		timer.timeout(update, 1000);
+		return;
+	end
+	
 	webhelper_get_status(function (status)
 		if (stop) then
 			print("Stopping update");
