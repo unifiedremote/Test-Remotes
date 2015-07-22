@@ -17,7 +17,7 @@
 				<slider id="currpos" text="Position" onup="poschange" />
 			</row>
 			<row weight="wrap">
-				<slider id="currvol" text="Volume" progressmax="100" onup="volchange" />
+				<slider id="currvol" text="Volume" progressmax="100" progress="100" onup="volchange" />
 			</row>
 		</tab>
 		<tab text="Playlists">
@@ -27,9 +27,9 @@
 				</list>
 			</row>
 			<row weight="wrap">
-				<toggle id="shuffle" icon="shuffle" onchange="shuffle" />
-				<button id="back" icon="back" ontap="back" />
-				<button id="repeat" icon="repeat" ontap="repeating" />
+				<toggle weight="1" id="shuffle" icon="shuffle" onchange="shuffle" />
+				<button weight="2" id="back" icon="back" ontap="back" />
+				<button weight="1" id="repeat" icon="repeat" ontap="repeating" />
 			</row>
 		</tab>
 		<tab text="Search">
