@@ -6,7 +6,7 @@ function spotify_api_v1_log (str)
 end
 
 function spotify_api_v1_url (path)
-	print("https://api.spotify.com/v1" .. path);
+	-- spotify_api_v1_log("https://api.spotify.com/v1" .. path);
 	return "https://api.spotify.com/v1" .. path;
 end
 

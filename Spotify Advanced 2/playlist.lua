@@ -161,11 +161,10 @@ end
 -------------------------------------------------------------------------------------------
 
 function playlist_get_lists ()
-	playlist_log("Loading playlists ...");
 	local url = spotify_api_v1_url("/users/" .. meinfo.id .. "/playlists"); 
 	http.request({ method = "get", url = url, connect = "spotify" }, function (err, resp)
 		if (err) then
-			playlist_log("err: " .. err);
+			playlist_log("HTTP.error: " .. err);
 			playlist_lists = nil;
 		else
 			playlist_lists = data.fromjson(resp.content);
@@ -182,8 +181,6 @@ function playlist_get_lists ()
 end
 
 function playlist_get_tracks(offset)
-	playlist_log("Loading tracks ...");
-	
 	local filter = "items.track(uri,name,artists.name),total,next";
 	
 	if (playlist_current == nil) then 
@@ -202,7 +199,7 @@ function playlist_get_tracks(offset)
 
 	get_playlist(playlist_current.owner.id, playlist_current.id, filter, offset, function (err, pllist)
 		if (err) then 
-			playlist_log(err);
+			playlist_log("HTTP.error: " .. err);
 			return;
 		end
 
@@ -263,16 +260,13 @@ function user_get_starred(offset)
 				table.insert(savedTracks, playlist_tracks[i]); 
 			end
 			if (starred.next ~= nil) then 
-				table.insert(trackitems, { type = "item", text="Load more tracks..."});
+				table.insert(trackitems, { type = "item", text = "Load more tracks..."});
 			end
 			
 			server.update({
 				id = "playlists",
 				children = trackitems
 			});
-			
-			playlist_log("Number of starred tracks:" .. #playlist_tracks);
-
 		end
 		playlist_current = {uri = starred.uri, owner = meinfo};
 		playlist_state = 2;
