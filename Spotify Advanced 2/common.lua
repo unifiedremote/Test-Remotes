@@ -8,6 +8,8 @@ local fs  = require("fs");
 playing = false;
 playing_uri = "";
 playing_duration = 0;
+playing_shuffle = false;
+playing_repeat = false;
 
 -------------------------------------------------------------------------------------------
 -- Spotify Cover Art Grabber
@@ -86,7 +88,7 @@ function update ()
 			uri = status.track.track_resource.uri;
 			pos = math.ceil(status.playing_position);
 			duration = math.ceil(status.track.length);
-		
+			
 			if (status.track.artist_resource ~= nil) then
 				artist = status.track.artist_resource.name;
 			else
@@ -125,6 +127,8 @@ function update ()
 		
 		Playing = playing;
 		
+		playing_shuffle = status["shuffle"] > 0;
+		playing_repeat = status["repeat"] > 0;
 		playing_duration = duration;
 		local duraction_text = data.sec2span(pos) .. " / " .. data.sec2span(duration);
 		server.update(
@@ -147,7 +151,8 @@ function server_update_play_state()
 		icon = "pause";
 	end
 	server.update(
-		{ id = "play", icon = icon }
+		{ id = "play", icon = icon },
+		{ id = "shuffle", checked = playing_shuffle }
 	);
 end
 

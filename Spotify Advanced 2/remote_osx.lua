@@ -51,12 +51,12 @@ end
 --@help Toggle Shuffle 
 actions.shuffle = function (checked)
 	set_shuffle(checked);
-	update();
+	update_quiet();
 end
 
 --@help Toggle Repeat 
-actions.repeating = function (checked)
-	set_repeat(checked);
+actions.repeating = function ()
+	set_repeat(not playing_repeat);
 	update();
 end
 
