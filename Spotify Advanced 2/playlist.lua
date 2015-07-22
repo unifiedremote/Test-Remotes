@@ -174,7 +174,6 @@ function playlist_get_lists ()
 				id = -1,
 				owner = { name = meinfo.id }
 			});
-			playlist_log("Found " .. (#playlist_lists) .. " lists");
 			playlist_update();
 		end
 	end);
