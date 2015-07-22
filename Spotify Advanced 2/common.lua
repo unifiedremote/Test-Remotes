@@ -58,7 +58,7 @@ end
 function update ()
 	if (quiet) then
 		quiet = false;
-		timer.timeout(update, 2000);
+		timer.timeout(update, 1000);
 		return;
 	end
 	
