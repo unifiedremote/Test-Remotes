@@ -1,6 +1,7 @@
 local http = require("http");
 local utf8 = require("utf8");
 local server = require("server");
+local data = require("data");
 
 local state = 0;
 local tracks;
@@ -40,10 +41,12 @@ function playlist_init ()
 			meinfo = nil;
 			server.update({
 				id = "playlists",
-				children = { { type = "item", text = "Not logged in..." } }
+				children = { 
+					{ type = "item", text = "Not logged in..." } 
+				}
 			});
 		else
-			meinfo = libs.data.fromjson(resp.content);
+			meinfo = data.fromjson(resp.content);
 			playlist_state = 0;
 			playlist_select();
 		end
@@ -67,15 +70,25 @@ function playlist_update ()
 	-- Update playlists
 	if (playlist_state == 0) then
 		local items = {};
+		
 		for i = 1, #playlist_lists.items do
 			local playlist = playlist_lists.items[i];
 			local fmt = format_playlist(playlist);
-			table.insert(items, { type = "item", text = fmt});
+			if (playlist.id == -1) then
+				table.insert(items, { type = "item", text = playlist.name});
+			else 
+				table.insert(items, { type = "item", text = fmt});
+			end
 		end
+
 		server.update({
 			id = "playlists",
 			children = items
 		});
+
+		-- Hide back button
+		layout.back.text = " ";
+
 		playlist_state = 1;
 	
 	-- Update playlist contents
@@ -86,7 +99,7 @@ function playlist_update ()
 	-- Update with more track to playlist contents
 	elseif (playlist_state == 2) then
 		if (#savedTracks > index) then
-			webhelper_play(savedTracks[index +1].track.uri, playlist_current.uri);
+			webhelper_play(savedTracks[index + 1].track.uri, playlist_current.uri);
 		else
 			offset = offset + 100;
 			playlist_get_tracks(offset);
@@ -107,6 +120,9 @@ function playlist_select (index)
 		
 	-- Get playlist contents
 	elseif (playlist_state == 1) then
+		-- Show back button again
+		layout.back.icon = "back";
+		
 		playlist_current = playlist_lists.items[index+1];
 		trackitems = {};
 		savedTracks = {};
@@ -115,7 +131,7 @@ function playlist_select (index)
 	-- Get more playlist tracks
 	elseif (playlist_state == 2) then
 		if (#savedTracks > index) then
-			webhelper_play(savedTracks[index +1].track.uri, playlist_current.uri);
+			webhelper_play(savedTracks[index + 1].track.uri, playlist_current.uri);
 		else
 			offset = offset + 100;
 			playlist_get_tracks(offset);
@@ -152,7 +168,13 @@ function playlist_get_lists ()
 			playlist_log("err: " .. err);
 			playlist_lists = nil;
 		else
-			playlist_lists = libs.data.fromjson(resp.content);
+			playlist_lists = data.fromjson(resp.content);
+			table.insert(playlist_lists.items, 1, {
+				name = "★ Starred\nYour starred tracks",
+				tracks = { total = "-1" },
+				id = -1,
+				owner = { name = meinfo.id }
+			});
 			playlist_log("Found " .. (#playlist_lists) .. " lists");
 			playlist_update();
 		end
@@ -160,42 +182,52 @@ function playlist_get_lists ()
 end
 
 function playlist_get_tracks(offset)
-	playlist_log("loading tracks ...");
+	playlist_log("Loading tracks ...");
 	
-	local filter = "items.track(uri,name,artists.name,available_markets),total,next";
+	local filter = "items.track(uri,name,artists.name),total,next";
 	
 	if (playlist_current == nil) then 
 		table.insert(savedTracks, { type = "item", text = "No current playlist"}); 
 		return;
 	end
 
+	if (offset == 0) then
+		trackitems = {};
+	end
+
+	if (playlist_current.id == -1) then 
+		user_get_starred(offset);
+		return;
+	end
+
 	get_playlist(playlist_current.owner.id, playlist_current.id, filter, offset, function (err, pllist)
 		if (err) then 
-			tracks = nil;
+			playlist_log(err);
 			return;
 		end
 
 		playlist_tracks = pllist.items;
 		if (playlist_tracks ~= nil) then
+			
 			if (#trackitems > 0 and utf8.equals(trackitems[#trackitems].text, "Load more tracks...")) then
 				table.remove(trackitems, #trackitems);
 			end
+			
 			for i = 1, #playlist_tracks do
 				local track = playlist_tracks[i].track;
-				if (playlist.contains(track.available_markets, meinfo.country)) then
-					local title = format_track_2line(track);
-					local uri = track.uri;
-					local checked = (uri == playing_uri);
-					table.insert(trackitems, { type = "item", text = title, uri = uri, checked = checked});
-					table.insert(savedTracks, playlist_tracks[i]); 
-				end
+				local title = format_track_2line(track);
+				local uri = track.uri;
+				local checked = (uri == playing_uri);
+				table.insert(trackitems, { type = "item", text = title, uri = uri, checked = checked});
+				table.insert(savedTracks, playlist_tracks[i]); 
 			end
+
 			if (pllist.next ~= nil) then 
-				table.insert(trackitems, { type = "item", text="Load more tracks..."});
+				table.insert(trackitems, { type = "item", text = "Load more tracks..."});
 			end
 			
 			server.update({
-				id= "playlists",
+				id = "playlists",
 				children = trackitems
 			});
 			
@@ -207,17 +239,73 @@ function playlist_get_tracks(offset)
 	end);
 end
 
+function user_get_starred(offset)
+	local user = meinfo.id;
+	get_starred(user, offset, function(err, starred)  
+		if (err) then
+			playlist_log(err);
+			return;
+		end
+
+		playlist_tracks = starred.tracks.items;
+		if (playlist_tracks ~= nil) then
+			
+			if (#trackitems > 0 and utf8.equals(trackitems[#trackitems].text, "Load more tracks...")) then
+				table.remove(trackitems, #trackitems);
+			end
+
+			for i = 1, #playlist_tracks do
+				local track = playlist_tracks[i].track;
+				local title = format_track_2line(track);
+				local uri = track.uri;
+				local checked = (uri == playing_uri);
+				table.insert(trackitems, { type = "item", text = title, uri = uri, checked = checked});
+				table.insert(savedTracks, playlist_tracks[i]); 
+			end
+			if (starred.next ~= nil) then 
+				table.insert(trackitems, { type = "item", text="Load more tracks..."});
+			end
+			
+			server.update({
+				id = "playlists",
+				children = trackitems
+			});
+			
+			playlist_log("Number of starred tracks:" .. #playlist_tracks);
+
+		end
+		playlist_current = {uri = starred.uri, owner = meinfo};
+		playlist_state = 2;
+	end);
+end
+
 function get_playlist(user, id, filter, offset, callback)
-	local params = "fields=" .. filter .. "&limit=100&offset=" .. offset;
-	local url = spotify_api_v1_url("/users/" .. user .. "/playlists/" .. id .. "/tracks?" .. params);
+	local user_safe = http.urlcomponentencode(user);
+	local params = "market=" .. meinfo.country .. "&fields=" .. filter .. "&limit=100&offset=" .. offset;
+	local url = spotify_api_v1_url("/users/" .. user_safe .. "/playlists/" .. id .. "/tracks?" .. params);
 	
 	http.request({ method = "get", url = url, connect = "spotify" }, function (err, resp)
 		if (err) then
 			playlist_log("HTTP.error: " .. err .. "\n" .. url);
 			callback(err, nil)
 		else
-			local pllist = libs.data.fromjson(resp.content);
+			local pllist = data.fromjson(resp.content);
 			callback(nil, pllist);
+		end
+	end);
+end
+
+function get_starred(user, offset, callback)
+	local user_safe = http.urlcomponentencode(user);
+	local params = "market=" .. meinfo.country .. "&limit=100&offset=" .. offset;
+	local url = spotify_api_v1_url("/users/" .. user_safe .. "/starred?" .. params); 
+	http.request({ method = "get", url = url, connect = "spotify" }, function (err, resp)
+		if (err) then
+			playlist_log("HTTP.error: " .. err .. "\n" .. url);
+			callback(err, nil)
+		else
+			local starred = data.fromjson(resp.content);
+			callback(nil, starred);
 		end
 	end);
 end
