@@ -83,6 +83,8 @@ actions.volchange = function (vol)
 	local y = rect.bottom - rect.top - 37;
 	local x = (rect.right - rect.left - 107) + math.floor(vol / 100 * 79) + 1;
 	click(hwnd, x, y);
+	
+	update_quiet();
 end
 
 --@help Change Position
@@ -100,6 +102,8 @@ actions.poschange = function (pos)
 	local w = x2 - x1;
 	local x = x1 + math.floor(pos / 100 * w) + 1;
 	click(hwnd, x, y);
+	
+	update_quiet();
 end
 
 --@help Launch Spotify application
