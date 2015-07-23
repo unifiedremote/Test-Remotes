@@ -17,4 +17,4 @@ Note that some auto clickers/pressers will stop running if your device screen tu
 * Add more auto clickers/pressers?
 
 ## Screenshots
-![screen.png](screen1.png)
+![screen1.png](screen1.png)
