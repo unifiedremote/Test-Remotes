@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+	<row>
+		<label id="label" text="label" />
+	</row>
+	<row>
+		<button id="button" text="button" ontap="test" />
+	</row>
+	<row>
+		<button text="foo" visibility="invisible" />
+	</row>
+</layout>
