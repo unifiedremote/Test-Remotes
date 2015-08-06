@@ -1,0 +1,4 @@
+meta.name: Volume Rocker Example
+meta.author: Unified
+meta.description: Example of how to use the volume rocker
+meta.platform: windows,osx,linux

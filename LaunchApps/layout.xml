@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layout>
+  <row>
+    <button ontap="close_app" text="close_app" />
+  </row>
+  <row>
+    <button ontap="start_chrome" text="chrome" />
+  </row>
+  <row>
+    <button ontap="start_plex" text="plex" />
+  </row>
+  <row>
+    <button ontap="start_xbmc" text="xbmc" />
+  </row>
+  <row>
+    <button ontap="start_internet_explorer" text="internet_explorer" />
+  </row>
+  <row>
+    <button ontap="start_windows_media_player" text="windows_media_player" />
+  </row>
+  <row>
+    <button ontap="minimize_all" text="minimize_all" />
+  </row>
+  <row>
+    <button icon="back" ontap="back" />
+    <button icon="left" ontap="left" />
+    <button icon="right" ontap="right" />
+    <button icon="up" ontap="up" />
+    <button icon="down" ontap="down" />
+    <button icon="select" ontap="return" />
+  </row>
+</layout>

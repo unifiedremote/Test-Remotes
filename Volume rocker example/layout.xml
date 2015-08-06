@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layout onVolumeUp="up" onVolumeDown="down">
+	<label text="Press the volume rocker up or down. Double click up/down to move left and right" />
+</layout>
